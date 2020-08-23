@@ -78,91 +78,30 @@
       </div>
     </div>
   </div>
-
-  <div class="modal fade" id="map-addfacility-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
-    <div class="modal-dialog"  style="width:90%;" role="document">
-      <div class="modal-content" style="width:90%;">
-        <div class="modal-header">
-          <button type="button" onclick="closeModal()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h5 class="modal-title" id="modal-adfacility-title">Add Facility</h5>
-        </div>
-        <div class="modal-body" id="map-addfacility-modal-body">
-          {% csrf_token %}
-          <div class="form-group{% if location_error %} has-error{% endif %}">
-            <label class="control-label">Location</label>
-            {% gizmo location_input %}
-          </div>
-          {% gizmo facility_id_input %}
-          <table id="project-list-table-3">
-            <tr>
-              <th>Project</th>
-              <th>Category</th>
-              <th>Priority</th>
-              <th>Description</th>
-              <th>Estimate Year</th>
-              <th>Estimated Cost</th>
-              <th>Construction Year</th>
-              <th>Construction Cost</th>
-              <th>Debt?</th>
-              <th>Recurring?</th>
-              <th>Edit/Delete</th>
-            </tr>
-            <tr id="add-project-row-0">
-              <td><input style="border: 1px solid" class="edit-fields project-name" type="text" id="0-add-project-project-name" name="0_add_project_project_name" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-category" name="0_add_project_project_category" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-priority" name="0_add_project_project_priority" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-description" name="0_add_project_project_description" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-estyear" name="0_add_project_project_estyear" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-estcost" name="0_add_project_project_estcost" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-constyear" name="0_add_project_project_constyear" value=""></td>
-              <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-constcost" name="0_add_project_project_constcost" value=""></td>
-              <td><input class="edit-fields" type="checkbox" id="0-add-project-debt-checkbox" name="0_add_project_debt_checkbox" value="true"></td>
-              <td><input class="edit-fields" type="checkbox" id="0-add-project-recur-checkbox" name="0_add_project_recur_checkbox" value="true"></td>
-              <td class="table-button">
-              <div>
-                <a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-0" onclick="stopEditRow(0);" class="btn btn-success submit-stop-edit-region" role="button">
-                  <span class="glyphicon glyphicon-save"></span> Stop Editing </a>
-                <a name="submit-edit-region" id="edit-button-0" onclick="editRow(0);" class="btn btn-warning submit-edit-region" role="button">
-                  <span class="glyphicon glyphicon-edit"></span> Edit </a>
-                <a name="submit-delete-region" id="delete-button-0" class="btn btn-danger submit-delete-region" role="button">
-                  <span class="glyphicon glyphicon-remove"></span> Delete </a>'
-              </div></td>
-            </tr>
-          </table>
-          <a style="float:left;" name="submit-add-project" id="add-project-button-2" onclick="addProjectRow();" class="btn btn-success submit-add-project" role="button">
-                            <span class="glyphicon glyphicon-plus"></span> Add New Project </a>
-        </div>
-        <div class="modal-footer">
-          <button type="button" onclick="closeModal();" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" onclick="saveDataToDB();" id="save-project-updates-button-2" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
 {% endblock %}
 
 {% block app_actions %}
-  {% if can_add_projects %}
-    <button type="button" id="sw_button" onclick="swModal();" class="btn btn-default stormwater"><img class="fit-picture"
-       src="{% static 'project_inventory/images/stormwater.png' %}" width="15" height="15"
-       alt="Stormwater icon"></button>
-    <button type="button" id="ww_button" onclick="wwModal();" class="btn btn-default wastewater"><img class="fit-picture"
-       src="{% static 'project_inventory/images/wastewater.png' %}" width="15" height="15"
-       alt="Wastewater icon"></button>
-    <button type="button" id="w_button" onclick="wModal();" class="btn btn-default water"><img class="fit-picture"
-       src="{% static 'project_inventory/images/water.png' %}" width="15" height="15"
-       alt="Water icon"></button>
-    <button type="button" id="transpo_button" onclick="transpoModal();" class="btn btn-default transportation"><img class="fit-picture"
-       src="{% static 'project_inventory/images/transportation.png' %}" width="15" height="15"
-       alt="Transportation icon"></button>
-    <button type="button" id="golf_button" onclick="golfModal();" class="btn btn-default golf"><img class="fit-picture"
-       src="{% static 'project_inventory/images/golf.png' %}" width="15" height="15"
-       alt="Golf icon"></button>
-    <button type="button" id="facilities_button" onclick="facilitiesModal();" class="btn btn-default facilities"><img class="fit-picture"
-       src="{% static 'project_inventory/images/facilities.png' %}" width="15" height="15"
-       alt="Facilities icon"></button>
-    <button type="button" id="add_facility_button" onclick="addFacilityModal();" class="btn btn-default">Add Facility</button>
-  {% endif %}
+  <button type="button" id="sw_button" onclick="swModal();" class="btn btn-default stormwater"><img class="fit-picture"
+     src="{% static 'project_inventory/images/stormwater.png' %}" width="15" height="15"
+     alt="Stormwater icon"></button>
+  <button type="button" id="ww_button" onclick="wwModal();" class="btn btn-default wastewater"><img class="fit-picture"
+     src="{% static 'project_inventory/images/wastewater.png' %}" width="15" height="15"
+     alt="Wastewater icon"></button>
+  <button type="button" id="w_button" onclick="wModal();" class="btn btn-default water"><img class="fit-picture"
+     src="{% static 'project_inventory/images/water.png' %}" width="15" height="15"
+     alt="Water icon"></button>
+  <button type="button" id="transpo_button" onclick="transpoModal();" class="btn btn-default transportation"><img class="fit-picture"
+     src="{% static 'project_inventory/images/transportation.png' %}" width="15" height="15"
+     alt="Transportation icon"></button>
+  <button type="button" id="golf_button" onclick="golfModal();" class="btn btn-default golf"><img class="fit-picture"
+     src="{% static 'project_inventory/images/golf.png' %}" width="15" height="15"
+     alt="Golf icon"></button>
+  <button type="button" id="facilities_button" onclick="facilitiesModal();" class="btn btn-default facilities"><img class="fit-picture"
+     src="{% static 'project_inventory/images/facilities.png' %}" width="15" height="15"
+     alt="Facilities icon"></button>
+  <img class="fit-picture"
+     src="{% static 'project_inventory/images/optxlogo.png' %}" width="50" height="20"
+     alt="Optx Logo">
 {% endblock %}
 
 {% block styles %}

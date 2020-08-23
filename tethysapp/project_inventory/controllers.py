@@ -328,52 +328,53 @@ def home(request):
         view=view_options
     )
 
-    # add_project_button = Button(
-    #     display_text='Add Facility',
-    #     name='add-project-button',
-    #     icon='glyphicon glyphicon-plus',
-    #     style='success',
-    #     href=reverse('project_inventory:add_project')
-    # )
+    add_project_button = Button(
+     display_text='Add Facility',
+     name='add-project-button',
+     icon='glyphicon glyphicon-plus',
+     style='success',
+     href=reverse('project_inventory:add_project')
+    )
+
     # Define form gizmos
-    facility_id_input = TextInput(
-        display_text='Facility ID',
-        name='facility_id',
-        initial=''
-    )
-
-    initial_view = MVView(
-        projection='EPSG:4326',
-        center=[-98.6, 39.8],
-        zoom=3.5
-    )
-
-    drawing_options = MVDraw(
-        controls=['Modify', 'Delete', 'Move', 'Point'],
-        initial='Point',
-        output_format='GeoJSON',
-        point_color='#FF0000'
-    )
-
-    location_input = MapView(
-        height='300px',
-        width='100%',
-        basemap=[
-            'CartoDB',
-            {'CartoDB': {'style': 'dark'}},
-            'OpenStreetMap',
-            'Stamen',
-            'ESRI'
-        ],
-        draw=drawing_options,
-        view=initial_view
-    )
+    # facility_id_input = TextInput(
+    #     display_text='Facility ID',
+    #     name='facility_id',
+    #     initial=''
+    # )
+    #
+    # initial_view = MVView(
+    #     projection='EPSG:4326',
+    #     center=[-98.6, 39.8],
+    #     zoom=3.5
+    # )
+    #
+    # drawing_options = MVDraw(
+    #     controls=['Modify', 'Delete', 'Move', 'Point'],
+    #     initial='Point',
+    #     output_format='GeoJSON',
+    #     point_color='#FF0000'
+    # )
+    #
+    # location_input = MapView(
+    #     height='300px',
+    #     width='100%',
+    #     basemap=[
+    #         'CartoDB',
+    #         {'CartoDB': {'style': 'dark'}},
+    #         'OpenStreetMap',
+    #         'Stamen',
+    #         'ESRI'
+    #     ],
+    #     draw=drawing_options,
+    #     view=initial_view
+    # )
 
     context = {
         'project_inventory_map': project_inventory_map,
-        #'add_project_button': add_project_button,
-        'location_input':location_input,
-        'facility_id_input':facility_id_input,
+        'add_project_button': add_project_button,
+        #'location_input':location_input,
+        #'facility_id_input':facility_id_input,
         'can_add_projects': has_permission(request, 'add_projects')
     }
 
