@@ -6,10 +6,11 @@ from tethys_sdk.gizmos import (Button, MapView, TextInput, DatePicker,
                                SelectInput, DataTableView, MVDraw, MVView,
                                MVLayer)
 from tethys_sdk.permissions import permission_required, has_permission
-from .model import Project, add_new_project, get_all_projects
+from .model import Project, add_new_project, get_all_projects, get_all_revenue
 from .app import ProjectInventory as app
 from .helpers import create_bargraph, create_piechart, create_sunburst
 import numpy as np
+from tethys_sdk.base import TethysAppBase
 
 
 # @login_required()
@@ -25,6 +26,7 @@ def home(request):
     fac_features = []
     golf_features = []
     transp_features = []
+    other_features = []
     lat_list = []
     lng_list = []
 
@@ -63,8 +65,10 @@ def home(request):
             fac_features.append(project_feature)
         elif project.category == "Transportation":
             fac_features.append(project_feature)
-        else:
+        elif project.category == "Water":
             w_features.append(project_feature)
+        else:
+            other_features.append(project_feature)
 
     # Define GeoJSON FeatureCollections
     sw_projects_feature_collection = {
@@ -127,21 +131,41 @@ def home(request):
         },
         'features': transp_features
     }
+    other_projects_feature_collection = {
+        'type': 'FeatureCollection',
+        'crs': {
+            'type': 'name',
+            'properties': {
+                'name': 'EPSG:4326'
+            }
+        },
+        'features': other_features
+    }
+
+    # sw_style = {'ol.style.Style': {
+    #     'image': {'ol.style.Icon': {
+    #         'size': [30, 30],
+    #         'offset': [0, 0],
+    #         'src': 'https://openlayers.org/en/v3.20.1/examples/data/icon.png',
+    #     }}
+    # }}
 
     sw_style = {'ol.style.Style': {
-        'image': {'ol.style.RegularShape': {
-            'radius': 10,
-            'points': 4,
-            'angle': np.pi / 4,
-            'fill': {'ol.style.Fill': {
-                'color':  '#03fc45'
-            }},
-            'stroke': {'ol.style.Stroke': {
-                'color': '#ffffff',
-                'width': 1
-            }}
+        'image': {'ol.style.Icon': {
+            'size': [30, 30],
+            'offset': [0, 0],
+            'src': 'https://drive.google.com/file/d/1gXDtCCKijTn0_mojWpw44GRERH_fnnrP/view?usp=sharing',
         }}
     }}
+
+    # sw_style = {'ol.style.Style': {
+    #     'image': {'ol.style.Icon': {
+    #         'size': [21, 25],
+    #         'offset': [0, 0],
+    #         'src': '../project_inventory/images/Stormwater.png',
+    #         'scale': 0.05
+    #     }}
+    # }}
 
     w_style = {'ol.style.Style': {
         'image': {'ol.style.Circle': {
@@ -210,6 +234,18 @@ def home(request):
             }}
         }}
     }}
+    other_style = {'ol.style.Style': {
+        'image': {'ol.style.Circle': {
+            'radius': 10,
+            'fill': {'ol.style.Fill': {
+                'color': '#c000fa'
+            }},
+            'stroke': {'ol.style.Stroke': {
+                'color': '#ffffff',
+                'width': 1
+            }}
+        }}
+    }}
 
     # Create a Map View Layer
     sw_projects_layer = MVLayer(
@@ -254,6 +290,13 @@ def home(request):
         layer_options={'style': transp_style},
         feature_selection=True
     )
+    other_projects_layer = MVLayer(
+        source='GeoJSON',
+        options=other_projects_feature_collection,
+        legend_title='projects',
+        layer_options={'style': other_style},
+        feature_selection=True
+    )
 
     # Define view centered on project locations
     try:
@@ -273,7 +316,8 @@ def home(request):
         height='100%',
         width='100%',
         layers=[sw_projects_layer, w_projects_layer, ww_projects_layer,
-                fac_projects_layer, golf_projects_layer, transp_projects_layer],
+                fac_projects_layer, golf_projects_layer, transp_projects_layer,
+                other_projects_layer],
         basemap=[
             'CartoDB',
             {'CartoDB': {'style': 'dark'}},
@@ -284,17 +328,52 @@ def home(request):
         view=view_options
     )
 
-    add_project_button = Button(
-        display_text='Add Facility',
-        name='add-project-button',
-        icon='glyphicon glyphicon-plus',
-        style='success',
-        href=reverse('project_inventory:add_project')
+    # add_project_button = Button(
+    #     display_text='Add Facility',
+    #     name='add-project-button',
+    #     icon='glyphicon glyphicon-plus',
+    #     style='success',
+    #     href=reverse('project_inventory:add_project')
+    # )
+    # Define form gizmos
+    facility_id_input = TextInput(
+        display_text='Facility ID',
+        name='facility_id',
+        initial=''
+    )
+
+    initial_view = MVView(
+        projection='EPSG:4326',
+        center=[-98.6, 39.8],
+        zoom=3.5
+    )
+
+    drawing_options = MVDraw(
+        controls=['Modify', 'Delete', 'Move', 'Point'],
+        initial='Point',
+        output_format='GeoJSON',
+        point_color='#FF0000'
+    )
+
+    location_input = MapView(
+        height='300px',
+        width='100%',
+        basemap=[
+            'CartoDB',
+            {'CartoDB': {'style': 'dark'}},
+            'OpenStreetMap',
+            'Stamen',
+            'ESRI'
+        ],
+        draw=drawing_options,
+        view=initial_view
     )
 
     context = {
         'project_inventory_map': project_inventory_map,
-        'add_project_button': add_project_button,
+        #'add_project_button': add_project_button,
+        'location_input':location_input,
+        'facility_id_input':facility_id_input,
         'can_add_projects': has_permission(request, 'add_projects')
     }
 
@@ -603,6 +682,39 @@ def list_projects(request):
     }
 
     return render(request, 'project_inventory/list_projects.html', context)
+
+
+# @login_required()
+def list_revenue(request):
+    """
+    Show all projects in a table view.
+    """
+    revenues = get_all_revenue()
+    table_rows = []
+
+    for revenue in revenues:
+
+        table_rows.append(
+            (
+                revenue.scenario, revenue.year,
+                revenue.revenue_source, revenue.monetary_Value,
+            )
+        )
+
+    revenue_table = DataTableView(
+        column_names=('Scenario', 'Year', 'Revenue Source', 'Monetary Value'),
+        rows=table_rows,
+        searching=True,
+        orderClasses=False,
+        lengthMenu=[[10, 25, 50, -1], [10, 25, 50, "All"]],
+    )
+
+    context = {
+        'revenue_table': revenue_table,
+    }
+
+    return render(request, 'project_inventory/list_revenue.html', context)
+
 
 # @login_required()
 def graphs(request):

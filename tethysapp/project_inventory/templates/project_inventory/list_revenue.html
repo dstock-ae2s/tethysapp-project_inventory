@@ -1,0 +1,7 @@
+{% extends "project_inventory/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_content %}
+  <h1>Revenue</h1>
+  {% gizmo revenue_table %}
+{% endblock %}

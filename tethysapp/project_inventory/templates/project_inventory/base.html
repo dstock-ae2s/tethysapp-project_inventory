@@ -2,25 +2,21 @@
 
 {% load static %}
 
-{% block title %}{{ tethys_app.name }}{% endblock %}
-
-{% block app_icon %}
-  {# The path you provided in your app.py is accessible through the tethys_app.icon context variable #}
-  <img src="{% if 'http' in tethys_app.icon %}{{ tethys_app.icon }}{% else %}{% static tethys_app.icon %}{% endif %}" />
-{% endblock %}
-
 {# The name you provided in your app.py is accessible through the tethys_app.name context variable #}
 {% block app_title %}{{ tethys_app.name }}{% endblock %}
+{% block app_icon %}<img src="{% if tethys_app.icon %}{% if 'http' in tethys_app.icon %}{{ tethys_app.icon }}{% else %}{% static tethys_app.icon %}{% endif %}{% else %}{% static 'tethys_apps/images/default_app_icon.gif' %}{% endif %}" />{% endblock %}
 
 {% block app_navigation_items %}
   {% url 'project_inventory:home' as home_url %}
   {% url 'project_inventory:add_project' as add_project_url %}
   {% url 'project_inventory:projects' as list_project_url %}
+  {% url 'project_inventory:revenue' as list_revenue_url %}
   {% url 'project_inventory:graphs' as graph_url %}
   <li class="title">Navigation</li>
   <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
   <li class="{% if request.path == list_project_url %}active{% endif %}"><a href="{{ list_project_url }}">Projects</a></li>
-  <li class="{% if request.path == graph_url %}active{% endif %}"><a href="{{ graph_url }}">Plots</a></li>
+  <li class="{% if request.path == list_revenue_url %}active{% endif %}"><a href="{{ list_revenue_url }}">Revenue</a></li>
+  <li class="{% if request.path == graph_url %}active{% endif %}"><a href="{{ graph_url }}">Analysis</a></li>
   {% if can_add_projects %}
   <li class="{% if request.path == add_project_url %}active{% endif %}"><a href="{{ add_project_url }}">Add Facility</a></li>
   {% endif %}

@@ -17,6 +17,7 @@ class Revenue(Base):
 
     # Columns
     id = Column(Integer, primary_key=True)
+    scenario = Column(String)
     revenue_source = Column(String)
     monetary_Value = Column(String)
     year = Column(String)
@@ -118,6 +119,20 @@ def get_all_projects():
 
     return projects
 
+def get_all_revenue():
+    """
+    Get all persisted projects.
+    """
+    # Get connection/session to database
+    Session = app.get_persistent_store_database('primary_db', as_sessionmaker=True)
+    session = Session()
+
+    # Query for all project records
+    revenue = session.query(Revenue).all()
+    session.close()
+
+    return revenue
+
 def init_primary_db(engine, first_time):
     """
     Initializer for the primary database.
@@ -165,8 +180,23 @@ def init_primary_db(engine, first_time):
             recur_checkbox_val=True,
         )
 
+        revenue1 = Revenue(
+            scenario="The first one",
+            revenue_source="Selling water",
+            monetary_Value="200000",
+            year="2004",
+        )
+        revenue2 = Revenue(
+            scenario="The second one",
+            revenue_source="Selling more water",
+            monetary_Value="100000",
+            year="2007",
+        )
+
         # Add the projects to the session, commit, and close
         session.add(project1)
         session.add(project2)
+        session.add(revenue1)
+        session.add(revenue2)
         session.commit()
         session.close()

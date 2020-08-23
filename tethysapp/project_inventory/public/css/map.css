@@ -4,6 +4,31 @@
     overflow-y: auto;
 }
 
+.golf {
+    background-color: #749F34;
+    border: none;
+}
+.transportation {
+    background-color: #232525;
+    border: none;
+}
+.facilities {
+    background-color: #074768;
+    border: none;
+}
+.stormwater {
+    background-color: #F78F03;
+    border: none;
+}
+.wastewater {
+    background-color: #B3C935;
+    border: none;
+}
+.water {
+    background-color: #056EB7;
+    border: none;
+}
+
 .popover {
     max-width: none;
 }
