@@ -645,6 +645,53 @@ def add_facility(request):
 
     return render(request, 'project_inventory/add_facility.html', context)
 
+# @permission_required('add_projects')
+def export(request):
+    """
+    Controller for the Export page.
+    """
+    start_date_input = DatePicker(
+        name='start_date',
+        display_text='Start Date',
+        autoclose=True,
+        format='MM d, yyyy',
+        start_date='8/24/2020',
+        start_view='decade',
+        today_button=True,
+        attributes={'class': 'date-input'},
+    )
+
+    end_date_input = DatePicker(
+        name='end_date',
+        display_text='End Date',
+        autoclose=True,
+        format='MM d, yyyy',
+        start_date='8/24/2020',
+        start_view='decade',
+        today_button=True,
+    )
+
+    cancel_button = Button(
+        display_text='Cancel',
+        name='cancel-button',
+        href=reverse('project_inventory:home')
+    )
+    submit_button = Button(
+        display_text='Submit',
+        name='submit-button',
+        href=reverse('project_inventory:home')
+    )
+
+    context = {
+        'start_date_input': start_date_input,
+        'end_date_input': end_date_input,
+        'cancel_button': cancel_button,
+        'submit_button':submit_button,
+        'can_add_projects': has_permission(request, 'add_projects')
+    }
+
+    return render(request, 'project_inventory/export.html', context)
+
 
 # @login_required()
 def list_projects(request):

@@ -71,6 +71,11 @@ class ProjectInventory(TethysAppBase):
                 url='project-inventory/graphs',
                 controller='project_inventory.controllers.graphs'
             ),
+            UrlMap(
+                name='export',
+                url='project-inventory/export',
+                controller='project_inventory.controllers.export'
+            ),
         )
 
         return url_maps

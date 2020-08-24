@@ -12,11 +12,13 @@
   {% url 'project_inventory:projects' as list_project_url %}
   {% url 'project_inventory:revenue' as list_revenue_url %}
   {% url 'project_inventory:graphs' as graph_url %}
+  {% url 'project_inventory:export' as export_url %}
   <li class="title">Navigation</li>
   <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
   <li class="{% if request.path == list_project_url %}active{% endif %}"><a href="{{ list_project_url }}">Projects</a></li>
   <li class="{% if request.path == list_revenue_url %}active{% endif %}"><a href="{{ list_revenue_url }}">Revenue</a></li>
   <li class="{% if request.path == graph_url %}active{% endif %}"><a href="{{ graph_url }}">Analysis</a></li>
+  <li class="{% if request.path == export_url %}active{% endif %}"><a href="{{ export_url }}">Export</a></li>
   {% if can_add_projects %}
   <li class="{% if request.path == add_project_url %}active{% endif %}"><a href="{{ add_project_url }}">Add Facility</a></li>
   {% endif %}
