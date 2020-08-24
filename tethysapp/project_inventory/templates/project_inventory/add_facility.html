@@ -13,38 +13,17 @@
       {% if location_error %}<p class="help-block">{{ location_error }}</p>{% endif %}
     </div>
     {% gizmo facility_id_input %}
-    <div class="table-overflow">
-      <table id="add-project-list-table">
-        <tr>
-          <th>Project</th>
-          <th>Category</th>
-          <th>Priority</th>
-          <th>Description</th>
-          <th>Estimate Year</th>
-          <th>Estimated Cost</th>
-          <th>Construction Year</th>
-          <th>Construction Cost</th>
-          <th>Debt?</th>
-          <th>Recurring?</th>
-        </tr>
-
-        <tr id="add-project-row-0">
-          <td><input style="border: 1px solid" class="edit-fields project-name" type="text" id="0-add-project-project-name" name="0_add_project_project_name" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-category" name="0_add_project_project_category" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-priority" name="0_add_project_project_priority" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-description" name="0_add_project_project_description" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-estyear" name="0_add_project_project_estyear" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-estcost" name="0_add_project_project_estcost" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-constyear" name="0_add_project_project_constyear" value=""></td>
-          <td><input style="border: 1px solid" class="edit-fields" type="text" id="0-add-project-project-constcost" name="0_add_project_project_constcost" value=""></td>
-          <td><input class="edit-fields" type="checkbox" id="0-add-project-debt-checkbox" name="0_add_project_debt_checkbox" value="true"></td>
-          <td><input class="edit-fields" type="checkbox" id="0-add-project-recur-checkbox" name="0_add_project_recur_checkbox" value="true"></td>
-        </tr>
-      </table>
-      <a style="float:left;" name="submit-add-project" id="add-project-button" onclick="addProjectRow();" class="btn btn-success submit-add-project" role="button">
-                            <span class="glyphicon glyphicon-plus"></span> Add New Project </a>
-    </div>
-
+    {% gizmo project_input %}
+    {% gizmo category_input %}
+    {% gizmo priority_input %}
+    {% gizmo description_input %}
+    {% gizmo est_year_input %}
+    {% gizmo est_cost_input %}
+    {% gizmo const_year_input %}
+    {% gizmo const_cost_input %}
+    <label class="control-label" for ="debt-checkbox">Debt?: </label><input class="edit-fields" type="checkbox" id="debt-checkbox" name="debt_checkbox" value="true">
+    <br>
+    <label class="control-label">Recurring?: </label><input class="edit-fields" type="checkbox" id="recur-checkbox" name="recur_checkbox" value="true">
   </form>
 
 {% endblock %}

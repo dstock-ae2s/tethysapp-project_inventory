@@ -1,42 +1,24 @@
 $(function(){
-    var nrows = document.querySelectorAll('.project-name');
-    console.log(nrows.length)
-    for (i=0; i<nrows.length; i++){
-        $('#'+i+'-add-project-project-estcost').change(function(){updateConstCost(i);});
-        $('#'+i+'-add-project-project-estyear').change(function(){updateConstCost(i);});
-        $('#'+i+'-add-project-project-constyear').change(function(){updateConstCost(i);});
-        $('#'+i+'-add-project-debt-checkbox').change(function(){
-            if(document.getElementById(i+'-add-project-debt-checkbox').value =="true"){
-                document.getElementById(i+'-add-project-recur-checkbox').checked = false;
-            }
-        });
-        $('#'+i+'-add-project-recur-checkbox').change(function(){
-            if(document.getElementById(i+'-add-project-recur-checkbox').value == "true"){
-                document.getElementById(i+'-add-project-debt-checkbox').checked = false;
-            }
-        });
-    }
-
-    $('#0-add-project-project-estcost').change(function(){updateConstCost(0);});
-    $('#0-add-project-project-estyear').change(function(){updateConstCost(0);});
-    $('#0-add-project-project-constyear').change(function(){updateConstCost(0);});
-    $('#0-add-project-debt-checkbox').change(function(){
-        if(document.getElementById('0-add-project-debt-checkbox').value =="true"){
-            document.getElementById('0-add-project-recur-checkbox').checked = false;
+    $('#est_cost').change(function(){updateConstCost();});
+    $('#est_year').change(function(){updateConstCost();});
+    $('#const_year').change(function(){updateConstCost();});
+    $('#debt-checkbox').change(function(){
+        if(document.getElementById('debt-checkbox').checked == true){
+            document.getElementById('recur-checkbox').checked = false;
         }
     });
-    $('#0-add-project-recur-checkbox').change(function(){
-        if(document.getElementById('0-add-project-recur-checkbox').value == "true"){
-            document.getElementById('0-add-project-debt-checkbox').checked = false;
+    $('#recur-checkbox').change(function(){
+        if(document.getElementById('recur-checkbox').checked == true){
+            document.getElementById('debt-checkbox').checked = false;
         }
     });
 });
 
-function updateConstCost(row){
-    this_est_cost = parseFloat(document.getElementById(row+'-add-project-project-estcost').value)
-    this_const_year = parseFloat(document.getElementById(row+'-add-project-project-constyear').value)
-    this_est_year = parseFloat(document.getElementById(row+'-add-project-project-estyear').value)
-    document.getElementById(row+'-add-project-project-constcost').value = ((this_est_cost*Math.pow(1.04,(this_const_year-this_est_year))).toFixed(0)).toString();
+function updateConstCost(){
+    this_est_cost = parseFloat(document.getElementById('est_cost').value)
+    this_const_year = parseFloat(document.getElementById('const_year').value)
+    this_est_year = parseFloat(document.getElementById('est_year').value)
+    document.getElementById('const_cost').value = ((this_est_cost*Math.pow(1.04,(this_const_year-this_est_year))).toFixed(0)).toString();
 };
 
 function addProjectRow (){

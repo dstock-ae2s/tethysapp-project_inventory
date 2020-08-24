@@ -419,94 +419,91 @@ def add_facility(request):
         print("In the first if")
         # Get values
         has_errors = False
-        projects = get_all_projects()
 
         facility_id = request.POST.get('facility_id', None)
         location = request.POST.get('geometry', None)
 
-        i = 0
-        val = (request.POST.get(str(i)+'_add_project_project_name', None))
-        while val:
-            print("In the for loop")
-            project = (request.POST.get(str(i) + '_add_project_project_name', None))
-            est_cost = (request.POST.get(str(i) + '_add_project_project_estcost', None))
-            est_year = (request.POST.get(str(i) + '_add_project_project_estyear', None))
-            const_cost = (request.POST.get(str(i) + '_add_project_project_constcost', None))
-            const_year =(request.POST.get(str(i) + '_add_project_project_constyear', None))
-            category = (request.POST.get(str(i) + '_add_project_project_category', None))
-            priority = (request.POST.get(str(i) + '_add_project_project_priority', None))
-            description = (request.POST.get(str(i) + '_add_project_project_description', None))
-            debt_checked = (request.POST.get(str(i) + '_add_project_debt_checkbox', None))
-            recur_checked = (request.POST.get(str(i) + '_add_project_recur_checkbox', None))
+        # project = (request.POST.get(str(i) + '_add_project_project_name', None))
+        # est_cost = (request.POST.get(str(i) + '_add_project_project_estcost', None))
+        # est_year = (request.POST.get(str(i) + '_add_project_project_estyear', None))
+        # const_cost = (request.POST.get(str(i) + '_add_project_project_constcost', None))
+        # const_year =(request.POST.get(str(i) + '_add_project_project_constyear', None))
+        # category = (request.POST.get(str(i) + '_add_project_project_category', None))
+        # priority = (request.POST.get(str(i) + '_add_project_project_priority', None))
+        # description = (request.POST.get(str(i) + '_add_project_project_description', None))
+        # debt_checked = (request.POST.get(str(i) + '_add_project_debt_checkbox', None))
+        # recur_checked = (request.POST.get(str(i) + '_add_project_recur_checkbox', None))
+        project = (request.POST.get('project', None))
+        est_cost = (request.POST.get('est_cost', None))
+        est_year = (request.POST.get('est_year', None))
+        const_cost = (request.POST.get('const_cost', None))
+        const_year = (request.POST.get('const_year', None))
+        category = (request.POST.get('category', None))
+        priority = (request.POST.get('priority', None))
+        description = (request.POST.get('description', None))
+        debt_checked = (request.POST.get('debt_checkbox', None))
+        recur_checked = (request.POST.get('recur_checkbox', None))
 
-            # Validate
-            if not facility_id:
-                has_errors = True
-                facility_id_error = 'Facility ID is required.'
+        # Validate
+        if not facility_id:
+            has_errors = True
+            facility_id_error = 'Facility ID is required.'
 
-            if not project:
-                has_errors = True
-                project_error = 'Project Name is required.'
+        if not project:
+            has_errors = True
+            project_error = 'Project Name is required.'
 
-            if not est_cost:
-                has_errors = True
-                est_cost_error = 'Cost is required.'
+        if not est_cost:
+            has_errors = True
+            est_cost_error = 'Cost is required.'
 
-            if not const_year:
-                has_errors = True
-                const_year_error = 'Planned Year is required.'
+        if not const_year:
+            has_errors = True
+            const_year_error = 'Planned Year is required.'
 
-            if not category:
-                has_errors = True
-                category_error = 'Category is required.'
+        if not category:
+            has_errors = True
+            category_error = 'Category is required.'
 
-            if not description:
-                has_errors = True
-                description_error = 'Description is required.'
+        if not description:
+            has_errors = True
+            description_error = 'Description is required.'
 
-            if not priority:
-                has_errors = True
-                priority_error = 'Priority is required.'
+        if not priority:
+            has_errors = True
+            priority_error = 'Priority is required.'
 
-            if not est_year:
-                has_errors = True
-                est_year_error = 'Estimate Year is required.'
+        if not est_year:
+            has_errors = True
+            est_year_error = 'Estimate Year is required.'
 
-            if not const_cost:
-                has_errors = True
-                const_cost_error = 'Construction Cost is required.'
+        if not const_cost:
+            has_errors = True
+            const_cost_error = 'Construction Cost is required.'
 
-            if not location:
-                has_errors = True
-                location_error = 'Location is required.'
+        if not location:
+            has_errors = True
+            location_error = 'Location is required.'
 
-            if not has_errors:
-                print("No Errors")
-                # Get value of max_projects custom setting
-                max_projects = app.get_custom_setting('max_projects')
+        if not has_errors:
+            print("No Errors")
+            # Get value of max_projects custom setting
+            max_projects = app.get_custom_setting('max_projects')
 
-                # Query database for count of projects
-                Session = app.get_persistent_store_database('primary_db', as_sessionmaker=True)
-                session = Session()
-                num_projects = session.query(Project).count()
+            # Query database for count of projects
+            Session = app.get_persistent_store_database('primary_db', as_sessionmaker=True)
+            session = Session()
+            num_projects = session.query(Project).count()
 
-                # Only add the project if custom setting doesn't exist or we have not exceed max_projects
-                if not max_projects or num_projects < max_projects:
-                    add_new_project(location=location, facility_id=facility_id, project=project, est_cost=est_cost, const_year=const_year, category=category, description=description, priority=priority, est_year=est_year, const_cost=const_cost, debt_checkbox_val=debt_checked, recur_checkbox_val=recur_checked)
-                    print("Project Added")
-                else:
-                    messages.warning(request, 'Unable to add project "{0}", because the inventory is full.'.format(facility_id))
-                    break
-
+            # Only add the project if custom setting doesn't exist or we have not exceed max_projects
+            if not max_projects or num_projects < max_projects:
+                add_new_project(location=location, facility_id=facility_id, project=project, est_cost=est_cost, const_year=const_year, category=category, description=description, priority=priority, est_year=est_year, const_cost=const_cost, debt_checkbox_val=debt_checked, recur_checkbox_val=recur_checked)
+                print("Project Added")
             else:
-                messages.error(request, "Please fix errors.")
-                break
+                messages.warning(request, 'Unable to add project "{0}", because the inventory is full.'.format(facility_id))
 
-
-            i += 1
-            val = (request.POST.get(str(i) + '_add_project_project_name', None))
-            if i>30:
-                break
+        else:
+            messages.error(request, "Please fix errors.")
 
         return redirect(reverse('project_inventory:home'))
 
@@ -528,7 +525,8 @@ def add_facility(request):
     est_cost_input = TextInput(
         display_text='Estimated Cost',
         name='est_cost',
-        attributes={'id':'add_project_estcost'},
+        attributes={'id':'est_cost',
+                    'type':'number'},
         initial=est_cost,
         error=est_cost_error
     )
@@ -543,7 +541,8 @@ def add_facility(request):
     const_cost_input = TextInput(
         display_text='Construction Cost',
         name='const_cost',
-        attributes={'id': 'add_project_constcost'},
+        attributes={'id': 'const_cost',
+                    'type':'number'},
         initial=const_cost,
         error=const_cost_error
     )
@@ -551,19 +550,17 @@ def add_facility(request):
     est_year_input = TextInput(
         display_text='Estimate Year',
         name='est_year',
-        attributes={'id': 'add_project_estyear'},
+        attributes={'id': 'est_year',
+                    'type':'number'},
         initial=est_year,
         error=est_year_error
     )
 
-    const_year_input = DatePicker(
+    const_year_input = TextInput(
         name='const_year',
         display_text='Construction Year',
-        attributes={'id': 'add_project_constyear'},
-        autoclose=True,
-        format='yyyy',
-        start_view='decade',
-        today_button=True,
+        attributes={'id': 'const_year',
+                    'type':'number'},
         initial=const_year,
         error=const_year_error
     )
@@ -582,7 +579,7 @@ def add_facility(request):
         display_text='Priority',
         name='priority',
         multiple=False,
-        options=[('One', '1'), ('Two', '2'), ('Three', '3'), ('Four', '4')],
+        options=[('One', '1'), ('Two', '2'), ('Three', '3'), ('Four', '4'), ('Five', '5')],
         initial=['One'],
         error=priority_error
     )
