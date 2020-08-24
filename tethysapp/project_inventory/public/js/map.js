@@ -819,7 +819,13 @@ function addCatProjectRow (){
 
 
     $('#project-list-table-2 tr').last().after(html);
+
+    html2 = "Projects added in this window will not appear on the map. Projects must be added on the 'Add Project' page to be seen on the map. Do you wish to continue?";
+    document.getElementById('warning-message').innerText = html2;
+
     editCatRow(i+1);
+
+    $("#submodal-modal").modal('show');
 };
 
 function addFacility (){

@@ -33,6 +33,17 @@
     max-width: none;
 }
 
+.bottommodal {
+    position:absolute;
+    top: 300px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 10040;
+    overflow: auto;
+    overflow-y: auto;
+}
+
 #inner-app-content {
     padding: 0;
 }

@@ -81,6 +81,23 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade bottommodal" id="submodal-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog"  style="width:90%;" role="document">
+      <div class="modal-content" style="width:90%;">
+        <div class="modal-header">
+          <button type="button" onclick="closeModal()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body" id="submodal-modal-body">
+          <text id="warning-message">Projects added in this window will not be displayed on the map. Are you sure you wish to continue?</text>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="closeModal();" class="btn btn-default" data-dismiss="modal">Continue</button>
+          {% gizmo add_project_button %}
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block app_actions %}

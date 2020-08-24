@@ -329,7 +329,7 @@ def home(request):
     )
 
     add_project_button = Button(
-     display_text='Add Facility',
+     display_text='Add Project',
      name='add-project-button',
      icon='glyphicon glyphicon-plus',
      style='success',
