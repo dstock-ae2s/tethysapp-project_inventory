@@ -674,11 +674,15 @@ def export(request):
     cancel_button = Button(
         display_text='Cancel',
         name='cancel-button',
+        icon='glyphicon glyphicon-remove',
+        style='danger',
         href=reverse('project_inventory:home')
     )
     submit_button = Button(
         display_text='Submit',
         name='submit-button',
+        style='success',
+        icon='glyphicon glyphicon-plus',
         href=reverse('project_inventory:home')
     )
 
