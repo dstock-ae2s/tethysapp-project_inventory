@@ -279,7 +279,7 @@ $(function() {
                                 '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox"'+ recur_is_checked + 'disabled></td>' +
                                 '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
                                 '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
-                                '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                                '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" onclick="deleteRow('+(i+1)+');" class="btn btn-danger submit-delete-region" role="button">'+
                                 '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
                                 '</div>'+
                                 '</td>'+
@@ -478,7 +478,7 @@ function updateCategorizedModal(return_data){
                     '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox"'+ recur_is_checked + 'disabled></td>' +
                     '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopCatEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
                     '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editCatRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
-                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" onclick="deleteCatRow('+(i+1)+');" class="btn btn-danger submit-delete-region" role="button">'+
                     '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
                     '</div>'+
                     '</td>'+
@@ -705,6 +705,42 @@ function editRow (row_num){
 
 };
 
+function deleteRow (row_num){
+    document.getElementById("project-list-table").deleteRow(row_num);
+
+    var project_names = document.querySelectorAll('.project-name');
+    for (var i=row_num+1; i<=project_names.length+1; i++){
+        document.getElementById(i+'-project-name').id = (i-1)+'-project-name';
+        document.getElementById(i+'-project-estcost').id = (i-1)+'-project-estcost';
+        document.getElementById(i+'-project-constyear').id =  (i-1)+'-project-constyear';
+        document.getElementById(i+'-project-category').id = (i-1)+'-project-category';
+        document.getElementById(i+'-project-description').id = (i-1)+'-project-description';
+        document.getElementById(i+'-project-priority').id =(i-1)+'-project-priority';
+        document.getElementById(i+'-project-estyear').id = (i-1)+'-project-estyear';
+        document.getElementById(i+'-project-constcost').id =(i-1)+'-project-constcost';
+        document.getElementById(i+'-debt-checkbox').id =(i-1)+'-debt-checkbox';
+        document.getElementById(i+'-recur-checkbox').id =(i-1)+'-recur-checkbox';
+    }
+};
+
+function deleteCatRow (row_num){
+    document.getElementById("project-list-table-2").deleteRow(row_num);
+
+    var project_names = document.querySelectorAll('.project-name');
+    for (var i=row_num+1; i<=project_names.length+1; i++){
+        document.getElementById(i+'-project-name').id = (i-1)+'-project-name';
+        document.getElementById(i+'-project-estcost').id = (i-1)+'-project-estcost';
+        document.getElementById(i+'-project-constyear').id =  (i-1)+'-project-constyear';
+        document.getElementById(i+'-project-facilityid').id = (i-1)+'-project-facilityid';
+        document.getElementById(i+'-project-description').id = (i-1)+'-project-description';
+        document.getElementById(i+'-project-priority').id =(i-1)+'-project-priority';
+        document.getElementById(i+'-project-estyear').id = (i-1)+'-project-estyear';
+        document.getElementById(i+'-project-constcost').id =(i-1)+'-project-constcost';
+        document.getElementById(i+'-debt-checkbox').id =(i-1)+'-debt-checkbox';
+        document.getElementById(i+'-recur-checkbox').id =(i-1)+'-recur-checkbox';
+    }
+};
+
 function stopEditRow (row_num){
 
     document.getElementById('stop-edit-button-'+row_num).style.display = 'none';
@@ -777,7 +813,7 @@ function addProjectRow (){
                     '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox" value="true"></td>' +
                     '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
                     '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
-                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" onclick="deleteRow('+(i+1)+');" class="btn btn-danger submit-delete-region" role="button">'+
                     '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
                     '</div>'+
                     '</td>'+
@@ -811,7 +847,7 @@ function addCatProjectRow (){
                     '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox" value="true"></td>' +
                     '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopCatEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
                     '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editCatRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
-                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" onclick="deleteCatRow('+(i+1)+');" class="btn btn-danger submit-delete-region" role="button">'+
                     '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
                     '</div>'+
                     '</td>'+
@@ -931,7 +967,7 @@ function addFacility (){
                                 '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox"'+ recur_is_checked + 'disabled></td>' +
                                 '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
                                 '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
-                                '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                                '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" onclick="deleteRow('+(i+1)+');" class="btn btn-danger submit-delete-region" role="button">'+
                                 '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
                                 '</div>'+
                                 '</td>'+
