@@ -181,6 +181,17 @@ $(function() {
     // Get the Open Layers map object from the Tethys MapView
     var map = TETHYS_MAP_VIEW.getMap();
 
+//    var layerSwitcher = new ol.control.LayerSwitcher({
+//        tipLabel: 'Legend',
+//        groupSelectStyle: 'children'
+//    });
+
+//    var layerSwitcher = {'ol.control.LayerSwticher':{
+//        'tipLabel': 'Legend',
+//        'groupSelectStyle': 'children'
+//    }};
+//    map.addControl(layerSwitcher);
+
     // Get the Select Interaction from the Tethys MapView
     var select_interaction = TETHYS_MAP_VIEW.getSelectInteraction();
 

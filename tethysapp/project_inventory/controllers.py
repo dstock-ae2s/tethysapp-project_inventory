@@ -151,10 +151,15 @@ def home(request):
     # }}
 
     sw_style = {'ol.style.Style': {
-        'image': {'ol.style.Icon': {
-            'size': [30, 30],
-            'offset': [0, 0],
-            'src': 'https://drive.google.com/file/d/1gXDtCCKijTn0_mojWpw44GRERH_fnnrP/view?usp=sharing',
+        'image': {'ol.style.Circle': {
+            'radius': 10,
+            'fill': {'ol.style.Fill': {
+                'color': '#d84e1f'
+            }},
+            'stroke': {'ol.style.Stroke': {
+                'color': '#ffffff',
+                'width': 1
+            }}
         }}
     }}
 
@@ -251,49 +256,49 @@ def home(request):
     sw_projects_layer = MVLayer(
         source='GeoJSON',
         options=sw_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Stormwater',
         layer_options={'style': sw_style},
         feature_selection=True
     )
     w_projects_layer = MVLayer(
         source='GeoJSON',
         options=w_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Water',
         layer_options={'style': w_style},
         feature_selection=True
     )
     ww_projects_layer = MVLayer(
         source='GeoJSON',
         options=ww_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Wastewater',
         layer_options={'style': ww_style},
         feature_selection=True
     )
     fac_projects_layer = MVLayer(
         source='GeoJSON',
         options=fac_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Facilities',
         layer_options={'style': fac_style},
         feature_selection=True
     )
     golf_projects_layer = MVLayer(
         source='GeoJSON',
         options=golf_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Golf',
         layer_options={'style': golf_style},
         feature_selection=True
     )
     transp_projects_layer = MVLayer(
         source='GeoJSON',
         options=transp_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Transportation',
         layer_options={'style': transp_style},
         feature_selection=True
     )
     other_projects_layer = MVLayer(
         source='GeoJSON',
         options=other_projects_feature_collection,
-        legend_title='projects',
+        legend_title='Other',
         layer_options={'style': other_style},
         feature_selection=True
     )
@@ -319,14 +324,19 @@ def home(request):
                 fac_projects_layer, golf_projects_layer, transp_projects_layer,
                 other_projects_layer],
         basemap=[
-            'CartoDB',
-            {'CartoDB': {'style': 'dark'}},
-            'OpenStreetMap',
-            'Stamen',
-            'ESRI'
+            'OpenStreetMap'
         ],
-        view=view_options
+        view=view_options,
+        legend=True
     )
+    #
+    #
+    # layerSwitcher = {'ol.control.LayerSwticher':{
+    #     'tipLabel': 'Legend',
+    #     'groupSelectStyle': 'children'
+    # }}
+    #
+    # project_inventory_map.addControl(layerSwitcher)
 
     add_project_button = Button(
      display_text='Add Project',
