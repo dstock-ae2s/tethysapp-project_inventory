@@ -448,6 +448,9 @@ function updateCategorizedModal(return_data){
     $('#project-list-table-2 tr').not(':first').remove();
     var html = '';
 
+    console.log(project_name_list);
+    console.log(project_name_list.length);
+
     for(var i = 0; i < project_name_list.length; i++){
         if(debt_checkbox_list[i] == "true"){
             console.log("truth revealed")
@@ -473,6 +476,11 @@ function updateCategorizedModal(return_data){
                     '<td><input class="edit-fields" type="text" id="' + (i+1) +'-project-constcost" value="'+ project_const_cost_list[i] + '" disabled></td>' +
                     '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-debt-checkbox"'+ debt_is_checked + 'disabled></td>' +
                     '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox"'+ recur_is_checked + 'disabled></td>' +
+                    '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopCatEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
+                    '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editCatRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
+                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                    '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
+                    '</div>'+
                     '</td>'+
                 '</tr>';
     };
@@ -488,6 +496,134 @@ function closeModal (){
     var select_interaction = TETHYS_MAP_VIEW.getSelectInteraction();
 
     select_interaction.getFeatures().clear();
+};
+
+function editCatRow (row_num){
+    console.log("In edit row")
+
+    document.getElementById('stop-edit-button-'+row_num).style.display = 'table-row';
+    document.getElementById('delete-button-'+row_num).disabled = true;
+
+    var delete_buttons = document.querySelectorAll('.submit-delete-region');
+    var edit_buttons = document.querySelectorAll('.submit-edit-region');
+
+
+    for (var i = 0; i < delete_buttons.length; i++) {
+        delete_buttons[i].style.backgroundColor = "gray";
+        delete_buttons[i].style.borderColor = "#000000";
+    };
+    for (var j = 0; j < edit_buttons.length; j++){
+        edit_buttons[j].style.display = 'none';
+
+    };
+    document.getElementById(row_num+'-project-name').disabled = false;
+    document.getElementById(row_num+'-project-name').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-estcost').disabled = false;
+    document.getElementById(row_num+'-project-estcost').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-constyear').disabled = false;
+    document.getElementById(row_num+'-project-constyear').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-facilityid').disabled = false;
+    document.getElementById(row_num+'-project-facilityid').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-description').disabled = false;
+    document.getElementById(row_num+'-project-description').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-priority').disabled = false;
+    document.getElementById(row_num+'-project-priority').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-estyear').disabled = false;
+    document.getElementById(row_num+'-project-estyear').style.border = '1px solid';
+
+    document.getElementById(row_num+'-project-constcost').disabled = false;
+    document.getElementById(row_num+'-project-constcost').style.border = '1px solid';
+
+    document.getElementById(row_num+'-debt-checkbox').disabled = false;
+    document.getElementById(row_num+'-debt-checkbox').style.border = '1px solid';
+
+    document.getElementById(row_num+'-recur-checkbox').disabled = false;
+    document.getElementById(row_num+'-recur-checkbox').style.border = '1px solid';
+
+    $('#'+row_num+'-project-estyear').change(function(){
+        this_est_cost = parseFloat(document.getElementById(row_num+'-project-estcost').value)
+        this_const_year = parseFloat(document.getElementById(row_num+'-project-constyear').value)
+        this_est_year = parseFloat(document.getElementById(row_num+'-project-estyear').value)
+        document.getElementById(row_num+'-project-constcost').value = ((this_est_cost*Math.pow(1.04,(this_const_year-this_est_year))).toFixed(0)).toString();
+    });
+    $('#'+row_num+'-project-estcost').change(function(){
+        this_est_cost = parseFloat(document.getElementById(row_num+'-project-estcost').value)
+        this_const_year = parseFloat(document.getElementById(row_num+'-project-constyear').value)
+        this_est_year = parseFloat(document.getElementById(row_num+'-project-estyear').value)
+        document.getElementById(row_num+'-project-constcost').value = ((this_est_cost*Math.pow(1.04,(this_const_year-this_est_year))).toFixed(0)).toString();
+    });
+    $('#'+row_num+'-project-constyear').change(function(){
+        this_est_cost = parseFloat(document.getElementById(row_num+'-project-estcost').value)
+        this_const_year = parseFloat(document.getElementById(row_num+'-project-constyear').value)
+        this_est_year = parseFloat(document.getElementById(row_num+'-project-estyear').value)
+        document.getElementById(row_num+'-project-constcost').value = ((this_est_cost*Math.pow(1.04,(this_const_year-this_est_year))).toFixed(0)).toString();
+    });
+
+    $('#'+row_num+'-debt-checkbox').change(function(){
+        if(document.getElementById(row_num+'-debt-checkbox').value =="on"){
+            document.getElementById(row_num+'-recur-checkbox').checked = false;
+        }
+    });
+    $('#'+row_num+'-recur-checkbox').change(function(){
+        if(document.getElementById(row_num+'-recur-checkbox').value == "on"){
+            document.getElementById(row_num+'-debt-checkbox').checked = false;
+        }
+    });
+
+};
+
+function stopCatEditRow (row_num){
+
+    document.getElementById('stop-edit-button-'+row_num).style.display = 'none';
+    document.getElementById('delete-button-'+row_num).disabled = false;
+
+    var delete_buttons = document.querySelectorAll('.submit-delete-region');
+    var edit_buttons = document.querySelectorAll('.submit-edit-region');
+
+
+    for (var i = 0; i < delete_buttons.length; i++) {
+        delete_buttons[i].style.backgroundColor = "#d9534f";
+        delete_buttons[i].style.borderColor = "#d43f3a";
+    };
+    for (var j = 0; j < edit_buttons.length; j++){
+        edit_buttons[j].style.display = 'table-row';
+
+    };
+    document.getElementById(row_num+'-project-name').disabled = true;
+    document.getElementById(row_num+'-project-name').style.border = 'none';
+
+    document.getElementById(row_num+'-project-estcost').disabled = true;
+    document.getElementById(row_num+'-project-estcost').style.border = 'none';
+
+    document.getElementById(row_num+'-project-constyear').disabled = true;
+    document.getElementById(row_num+'-project-constyear').style.border = 'none';
+
+    document.getElementById(row_num+'-project-facilityid').disabled = true;
+    document.getElementById(row_num+'-project-facilityid').style.border = 'none';
+
+    document.getElementById(row_num+'-project-description').disabled = true;
+    document.getElementById(row_num+'-project-description').style.border = 'none';
+
+    document.getElementById(row_num+'-project-priority').disabled = true;
+    document.getElementById(row_num+'-project-priority').style.border = 'none';
+
+    document.getElementById(row_num+'-project-estyear').disabled = true;
+    document.getElementById(row_num+'-project-estyear').style.border = 'none';
+
+    document.getElementById(row_num+'-project-constcost').disabled = true;
+    document.getElementById(row_num+'-project-constcost').style.border = 'none';
+
+    document.getElementById(row_num+'-debt-checkbox').disabled = true;
+    document.getElementById(row_num+'-debt-checkbox').style.border = 'none';
+
+    document.getElementById(row_num+'-recur-checkbox').disabled = true;
+    document.getElementById(row_num+'-recur-checkbox').style.border = 'none';
 };
 
 function editRow (row_num){
@@ -650,6 +786,40 @@ function addProjectRow (){
 
     $('#project-list-table tr').last().after(html);
     editRow(i+1);
+};
+
+function addCatProjectRow (){
+    console.log("In Cat Add Project Row")
+
+    var html = '';
+
+        var nrows = document.querySelectorAll('.project-name');
+        numrows = nrows.length;
+        console.log(numrows);
+        i = numrows;
+
+        html += '<tr id="row-'+(i+1)+'">'+
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-facilityid" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields project-name" type="text" id="' + (i+1) +'-project-name" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-priority" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-description" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-estyear" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-estcost" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-constyear" value="" ></td>' +
+                    '<td><input style="border: 1px solid" class="edit-fields" type="text" id="' + (i+1) +'-project-constcost" value="" ></td>' +
+                    '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-debt-checkbox" value="true"></td>' +
+                    '<td><input class="edit-fields" type="checkbox" id="' + (i+1) +'-recur-checkbox" value="true"></td>' +
+                    '<td class="table-button"><div"><a name="submit-stop-edit-region" style="display:none;" id="stop-edit-button-'+(i+1)+'" onclick="stopCatEditRow('+(i+1)+');" class="btn btn-success submit-stop-edit-region" role="button">'+
+                    '<span class="glyphicon glyphicon-save"></span> Stop Editing </a><a name="submit-edit-region" id="edit-button-'+(i+1)+'" onclick="editCatRow('+(i+1)+');" class="btn btn-warning submit-edit-region" role="button">'+
+                    '<span class="glyphicon glyphicon-edit"></span> Edit </a><a name="submit-delete-region" id="delete-button-'+(i+1)+'" class="btn btn-danger submit-delete-region" role="button">'+
+                    '<span class="glyphicon glyphicon-remove"></span> Delete </a>'+
+                    '</div>'+
+                    '</td>'+
+                '</tr>';
+
+
+    $('#project-list-table-2 tr').last().after(html);
+    editCatRow(i+1);
 };
 
 function addFacility (){

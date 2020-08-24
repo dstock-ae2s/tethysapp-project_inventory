@@ -228,8 +228,15 @@ def save_cat_updates_to_db (request):
         project_list = get_all_projects()
         for project in project_list:
             if project.category == category:
-                latitude = project.latitude
-                longitude = project.longitude
+                if project.category == "Existing Debt":
+                    latitude = 0
+                    longitude = 0
+                elif project.latitude is None:
+                    latitude = 0
+                    longitude = 0
+                else:
+                    latitude = project.latitude
+                    longitude = project.longitude
                 session.delete(project)
 
         for i in range(len(project_name_list)):

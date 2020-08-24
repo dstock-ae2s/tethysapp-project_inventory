@@ -71,9 +71,12 @@
               <th>Recurring?</th>
             </tr>
           </table>
+          <a style="float:left;" name="submit-add-project" id="add-cat-project-button" onclick="addCatProjectRow();" class="btn btn-success submit-add-project" role="button">
+                            <span class="glyphicon glyphicon-plus"></span> Add New Project </a>
         </div>
         <div class="modal-footer">
           <button type="button" onclick="closeModal();" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" onclick="saveCatDataToDB();" id="save-cat-project-updates-button" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
         </div>
       </div>
     </div>
