@@ -1,0 +1,39 @@
+{% extends "project_inventory/base.html" %}
+{% load tethys_gizmos %}
+{% load tethys_gizmos staticfiles %}
+
+
+{% block app_content %}
+  <h1>Add Project</h1>
+  <form id="add-project-form" method="post">
+    {% csrf_token %}
+    <div class="form-group{% if location_error %} has-error{% endif %}">
+      <label class="control-label">Location</label>
+      {% gizmo location_input %}
+      {% if location_error %}<p class="help-block">{{ location_error }}</p>{% endif %}
+    </div>
+    {% gizmo facility_id_input %}
+    {% gizmo project_input %}
+    {% gizmo category_input %}
+    {% gizmo priority_input %}
+    {% gizmo description_input %}
+    {% gizmo est_year_input %}
+    {% gizmo est_cost_input %}
+    {% gizmo const_year_input %}
+    {% gizmo const_cost_input %}
+    <label class="control-label" for ="debt-checkbox">Debt?: </label><input class="edit-fields" type="checkbox" id="debt-checkbox" name="debt_checkbox" value="true">
+    <br>
+    <label class="control-label">Recurring?: </label><input class="edit-fields" type="checkbox" id="recur-checkbox" name="recur_checkbox" value="true">
+  </form>
+
+{% endblock %}
+
+{% block app_actions %}
+  {% gizmo add_button %}
+  {% gizmo cancel_button %}
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'project_inventory/js/add_facility.js' %}" type="text/javascript"></script>
+{% endblock %}

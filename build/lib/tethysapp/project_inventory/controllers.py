@@ -4,7 +4,7 @@ from django.shortcuts import render, reverse, redirect
 from tethys_sdk.permissions import login_required
 from tethys_sdk.gizmos import (Button, MapView, TextInput, DatePicker, 
                                SelectInput, DataTableView, MVDraw, MVView,
-                               MVLayer, MVLegendClass)
+                               MVLayer)
 import os
 from tethys_sdk.permissions import permission_required, has_permission
 from .model import Project, Revenue, add_new_project, get_all_projects,get_all_revenue
@@ -352,7 +352,6 @@ def home(request, app_workspace):
         source='GeoJSON',
         options=golf_projects_feature_collection,
         legend_title='Golf Projects',
-        # legend_classes=[MVLegendClass('point', 'Golf Projects', fill='rgba(0,0,255,0.1)', stroke='blue')],
         layer_options={'style': golf_style},
         feature_selection=True
     )

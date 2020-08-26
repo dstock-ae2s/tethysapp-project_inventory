@@ -1,0 +1,66 @@
+{% extends "project_inventory/base.html" %}
+{% load tethys_gizmos %}
+{% load tethys_gizmos staticfiles %}
+{% block import_gizmos %}
+  {% import_gizmo_dependency plotly_view %}
+{% endblock %}
+
+{% block app_content %}
+    <!--<label for="graph-selector">Select Chart Type</label>-->
+    <!--<select style="width:250px; margin-right:20px;" id="graph-selector">-->
+        <!--<option>Future Cost BarChart</option>-->
+        <!--<option>Future Cost PieChart</option>-->
+        <!--<option>Future Cost SunburstChart</option>-->
+        <!--<option>Future Revenue BarChart</option>-->
+        <!--<option>Future Revenue PieChart</option>-->
+        <!--<option>Future Revenue SunburstChart</option>-->
+    <!--</select>-->
+    <!--<label for="graph-start-date">Starting Year:</label>-->
+    <!--<input id="graph-start-date" value="2020" type="number" placeholder="2020">-->
+    <!--<label for="graph-end-date">Ending Year:</label>-->
+    <!--<input id="graph-end-date" type="number" value="2040" placeholder="2040">-->
+    <label for="graph-selector">Revenue Scenario</label>
+    <select style="width:250px; margin-right:20px;" id="graph-selector">
+        <option value ="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>
+    <!--<label for="graph-start-date">Starting Year:</label>-->
+    <!--<input id="graph-start-date" value="2020" type="number" placeholder="2020">-->
+    <!--<label for="graph-end-date">Ending Year:</label>-->
+    <!--<input id="graph-end-date" type="number" value="2040" placeholder="2060">-->
+
+    <div class ="barchart" id="low-rev-barchart">
+
+        {% gizmo bargraph_low_plot %}
+    </div>
+    <div class ="barchart" id ="medium-rev-barchart">
+        {% gizmo bargraph_med_plot %}
+    </div>
+    <div class ="barchart" id="high-rev-barchart">
+        {% gizmo bargraph_high_plot %}
+
+    </div>
+    <div class ="compare-barchart" id="low-rev-compare-barchart">
+
+        {% gizmo bargraph_compare_low_plot %}
+    </div>
+    <div class ="compare-barchart" id="medium-rev-compare-barchart">
+
+        {% gizmo bargraph_compare_med_plot %}
+    </div>
+    <div class ="compare-barchart" id="high-rev-compare-barchart">
+
+        {% gizmo bargraph_compare_high_plot %}
+    </div>
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+  {{ block.super }}
+    <script src="{% static 'project_inventory/js/revenue_vs_requirements.js' %}" type="text/javascript"></script>
+{% endblock %}

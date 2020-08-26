@@ -1,0 +1,31 @@
+{% extends "project_inventory/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_content %}
+    <!--<label for="graph-selector">Select Chart Type</label>-->
+    <!--<select style="width:250px; margin-right:20px;" id="graph-selector">-->
+        <!--<option>Future Cost BarChart</option>-->
+        <!--<option>Future Cost PieChart</option>-->
+        <!--<option>Future Cost SunburstChart</option>-->
+        <!--<option>Future Revenue BarChart</option>-->
+        <!--<option>Future Revenue PieChart</option>-->
+        <!--<option>Future Revenue SunburstChart</option>-->
+    <!--</select>-->
+    <!--<label for="graph-start-date">Starting Year:</label>-->
+    <!--<input id="graph-start-date" value="2020" type="number" placeholder="2020">-->
+    <!--<label for="graph-end-date">Ending Year:</label>-->
+    <!--<input id="graph-end-date" type="number" value="2040" placeholder="2040">-->
+
+    <div id="future-cost-barchart">
+
+        {% gizmo bargraph_plot %}
+    </div>
+    <div id ="future-cost-piechart">
+        {% gizmo piechart_plot %}
+    </div>
+    <div id="future-cost-sunburstchart">
+        {% gizmo sunburst_plot %}
+    </div>
+
+
+{% endblock %}

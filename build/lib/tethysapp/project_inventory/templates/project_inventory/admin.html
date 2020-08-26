@@ -1,0 +1,27 @@
+{% extends "project_inventory/base.html" %}
+{% load tethys_gizmos staticfiles %}
+
+
+{% block app_content %}
+
+{% endblock %}
+
+{% block after_app_content %}
+
+{% endblock %}
+
+{% block app_actions %}
+    {% gizmo add_rev_button %}
+    {% gizmo add_project_button %}
+
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'project_inventory/css/map.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'project_inventory/js/admin.js' %}" type="text/javascript"></script>
+{% endblock %}

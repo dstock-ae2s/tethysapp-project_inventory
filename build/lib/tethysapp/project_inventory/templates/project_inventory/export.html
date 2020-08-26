@@ -1,0 +1,62 @@
+{% extends "project_inventory/base.html" %}
+{% load tethys_gizmos %}
+{% load tethys_gizmos staticfiles %}
+
+
+{% block app_content %}
+  <h1>Export</h1>
+  <form id="export-form" method="post">
+    {% csrf_token %}
+    <div id="export-radio">
+        <br>
+        <label class="radio-inline">
+            <input type="radio" name="export_radio" checked="checked" value="GIS">GIS
+            <span class="radio-inline"></span>
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="export_radio" value="CIP">CIP
+            <span class="radio-inline"></span>
+        </label>
+    </div>
+    <br><br>
+    <div id="gis-input">
+        <text><b>Select Layers:</b></text><br><br>
+            <div class="tab">
+                <input type="checkbox" id="stormwater_layer" name="stormwater_layer" value="stormwater">
+                <label for="stormwater_layer">Stormwater Projects</label><br>
+                <input type="checkbox" id="wastewater_layer" name="wastewater_layer" value="wastewater">
+                <label for="wastewater_layer">Wastewater Projects</label><br>
+                <input type="checkbox" id="water_layer" name="water_layer" value="water">
+                <label for="water_layer">Water Projects</label><br>
+                <input type="checkbox" id="transportation_layer" name="transportation_layer" value="transportation">
+                <label for="transportation_layer">Transportation Projects</label><br>
+                <input type="checkbox" id="facilities_layer" name="facilities_layer" value="facilities">
+                <label for="facilities_layer">Facilities Projects</label><br>
+                <input type="checkbox" id="golf_layer" name="golf_layer" value="golf">
+                <label for="golf_layer">Golf Projects</label><br>
+                <input type="checkbox" id="debt_layer" name="debt_layer" value="debt">
+                <label for="debt_layer">Existing Debt</label><br>
+            </div>
+        <br><br>
+    </div>
+    <div id="cip-input">
+        <label for="start_date">Start Date: </label>
+        <input type="date" id="start_date" name="start_date">
+        <br><br>
+        <label for="end_date">End Date: </label>
+        <input type="date" id="end_date" name="end_date">
+        <br><br>
+    </div>
+  </form>
+
+{% endblock %}
+
+{% block app_actions %}
+  {% gizmo submit_button %}
+  {% gizmo cancel_button %}
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'project_inventory/js/export.js' %}" type="text/javascript"></script>
+{% endblock %}>

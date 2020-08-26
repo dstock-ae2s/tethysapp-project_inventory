@@ -267,7 +267,7 @@ def init_primary_db(engine, first_time):
         # )
 
         # Add the projects to the session, commit, and close
-        # session.add(project1)
-        # session.add(project2)
+        session.add(project1)
+        session.add(project2)
         session.commit()
         session.close()
